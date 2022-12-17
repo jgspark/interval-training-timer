@@ -1,7 +1,11 @@
 # interval-training-timer
 
 
-### 트터블 슈팅 
+### library 
+
+* [react-native-progress-timer](https://www.npmjs.com/package/react-native-progress-timer)
+
+### trouble shooting
 
 * ruby version error by mac 
 * pod version error 

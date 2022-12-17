@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import TimerView from "./src/view/TimerView";
 
 const App = () => {
+
   return (
-    <TimerView />
+    <TimerView remainingTime={30} />
   );
 };
 

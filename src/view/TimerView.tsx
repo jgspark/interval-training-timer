@@ -1,54 +1,58 @@
-import React from "react";
-import { ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { Button, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TextInput, View } from "react-native";
 
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { Timer } from "react-native-progress-timer";
 
-const TimerView = () => {
+
+interface CustomInputBox {
+  title: string;
+}
+
+const CustomInputBox = (props: CustomInputBox) => {
+  const { title } = props;
   return (
-    <>
-      <StatusBar barStyle="light-content" />
+    <View style={{
+      backgroundColor: "#fff",
+      flex: 1,
+      padding: 10,
+    }}>
+      <Text>
+        {title}
+      </Text>
+      <TextInput style={{
+        backgroundColor: "#f00",
+      }} />
+    </View>
+  );
+};
 
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={styles.scrollView}>
-        <Text style={{
-          color: "#ffffff",
-          alignContent: "center",
-          margin: "auto",
-          textAlign: "center",
-          fontSize: 20,
-        }}>Timer</Text>
-        <View
-          style={{
-            borderBottomColor: "white",
-            borderBottomWidth: 1,
-          }}
-        />
-        {/*{global.HermesInternal == null ? null : (*/}
-        {/*  <View style={styles.engine}>*/}
-        {/*    <Text style={styles.footer}>Engine: Hermes</Text>*/}
-        {/*  </View>*/}
-        {/*)}*/}
-        <View style={styles.body}>
-          <Timer
-            remainingTime={30}
-            size={350}
-            showsText={true}
-            animated={true}
-            direction={"counter-clockwise"}
-            borderColor={"#d9dcdd"}
-            borderWidth={3}
-            thickness={5}
-            color={"#faac02"}
-            style={options.style}
-            textStyle={options.textStyle}
-            options={options}
-          />
-        </View>
-      </ScrollView>
+interface TimerViewProps {
+  remainingTime: Number | any;
+}
 
-    </>
+const TimerView = (props: TimerViewProps) => {
+
+  const { remainingTime } = props;
+
+  return (
+    <SafeAreaView>
+      <View style={styles.body}>
+        <Timer
+          remainingTime={remainingTime}
+          size={350}
+          showsText={true}
+          animated={true}
+          direction={"counter-clockwise"}
+          borderColor={"#d9dcdd"}
+          borderWidth={3}
+          thickness={5}
+          color={"#faac02"}
+          style={options.style}
+          textStyle={options.textStyle}
+        ></Timer>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -57,7 +61,7 @@ const options = {
     margin: "auto",
   },
   textStyle: {
-    color: "#ffffff",
+    color: "#000000",
   },
   view: {
     flexDirection: "row",
@@ -65,69 +69,39 @@ const options = {
     margin: 10,
   },
   highlight: {
-    backgroundColor: "#000000",
+    backgroundColor: "#ffffff",
   },
   play: {
-    underlayColor: "#000000",
+    underlayColor: "#ffffff",
     borderColor: "#d9dcdd",
     textStyle: {
-      color: "#ffffff",
+      color: "#000000",
     },
     style: {
-      backgroundColor: "#000000",
+      backgroundColor: "#ffffff",
     },
   },
   cancel: {
-    underlayColor: "#000000",
+    underlayColor: "#ffffff",
     borderColor: "#d9dcdd",
     textStyle: {
-      color: "#ffffff",
+      color: "#000000",
     },
     style: {
-      backgroundColor: "#000000",
+      backgroundColor: "#ffffff",
     },
   },
 };
 
 const styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: Colors.black,
-  },
-  engine: {
-    position: "absolute",
-    right: 0,
+    backgroundColor: Colors.lighter,
   },
   body: {
-    backgroundColor: Colors.black,
+    backgroundColor: Colors.white,
     alignItems: "center",
-    marginTop: 50,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: "600",
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: "400",
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: "700",
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: "600",
-    padding: 4,
-    paddingRight: 12,
-    textAlign: "right",
+    alignContent: "center",
   },
 });
 
-export default TimerView
+export default TimerView;

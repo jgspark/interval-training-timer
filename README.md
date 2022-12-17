@@ -14,6 +14,7 @@
 
 
 * IntervalTrainingTimer/node_modules/@react-native-community/cli-platform-android' does not contain a Gradle build. 
+* you can command line use to by this `npm i @react-native-community/cli` 
 * [stackoverflow](https://stackoverflow.com/questions/59422584/react-native-build-failed-in-android-react-native-community-cli-platform-andro)
 
 

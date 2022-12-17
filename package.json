@@ -4,14 +4,15 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "ios": "yarn run ios",
+    "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
     "react": "18.1.0",
-    "react-native": "0.70.6"
+    "react-native": "0.70.6",
+    "react-native-progress-timer": "^1.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

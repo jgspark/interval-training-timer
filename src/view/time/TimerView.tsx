@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
@@ -6,6 +6,10 @@ import IntervalTimer from '../../components/IntervalTimer';
 
 const TimerView = () => {
   const [timer] = useState<String>('30');
+
+  useEffect(() => {
+    console.debug('created hook : timer viewer');
+  }, []);
 
   return (
     <SafeAreaView>

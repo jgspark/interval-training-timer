@@ -1,10 +1,8 @@
-import React, {useState} from 'react';
-import TimerView from './src/view/TimerView';
+import React from 'react';
+import TimerView from './src/view/time/TimerView';
 
 const App = () => {
-  const state = useState(10);
-
-  return <TimerView remainingTime={state} />;
+  return <TimerView />;
 };
 
 export default App;

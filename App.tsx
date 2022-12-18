@@ -3,8 +3,10 @@ import TimerView from "./src/view/TimerView";
 
 const App = () => {
 
+  const state = useState(10);
+
   return (
-    <TimerView remainingTime={30} />
+    <TimerView remainingTime={10} />
   );
 };
 

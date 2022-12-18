@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import IntervalTimer from '../../components/IntervalTimer';
+import IntervalTimer from '../../component/IntervalTimer';
 
 const TimerView = () => {
   const [timer] = useState<String>('30');

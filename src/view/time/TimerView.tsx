@@ -7,6 +7,8 @@ import IntervalTimer from '../../component/IntervalTimer';
 const TimerView = () => {
   const [timer, setTimer] = useState<String>('30');
 
+  const [statusColor, setStatusColor] = useState<String>('#faac02');
+
   useEffect(() => {
     console.debug('created hook : timer viewer');
   }, []);
@@ -14,9 +16,10 @@ const TimerView = () => {
   return (
     <SafeAreaView>
       <View style={styles.body}>
-        <IntervalTimer timer={timer} statusColor={'#faac02'} />
+        <IntervalTimer timer={timer} statusColor={statusColor} />
       </View>
       <TextInput value={timer} onChangeText={setTimer} />
+      <TextInput value={statusColor} onChangeText={setStatusColor} />
     </SafeAreaView>
   );
 };

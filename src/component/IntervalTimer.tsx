@@ -3,7 +3,7 @@ import {Timer} from 'react-native-progress-timer';
 
 interface IntervalTimerProps {
   timer: Number | any;
-  statusColor: string;
+  statusColor: String;
 }
 
 const IntervalTimer = (props: IntervalTimerProps) => {

@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet, TextInput, View} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import IntervalTimer from '../../component/IntervalTimer';
 
 const TimerView = () => {
-  const [timer] = useState<String>('30');
+  const [timer, setTimer] = useState<String>('30');
 
   useEffect(() => {
     console.debug('created hook : timer viewer');
@@ -16,6 +16,7 @@ const TimerView = () => {
       <View style={styles.body}>
         <IntervalTimer timer={timer} statusColor={'#faac02'} />
       </View>
+      <TextInput value={timer} onChangeText={setTimer} />
     </SafeAreaView>
   );
 };

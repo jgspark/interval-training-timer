@@ -10,7 +10,10 @@ const IntervalTimer = (props: IntervalTimerProps) => {
   const {timer, statusColor} = props;
 
   useEffect(() => {
-    console.log('this hook', timer);
+    console.debug('this hook', timer);
+    return function cleanup() {
+      console.debug('this cleanup');
+    };
   }, [timer]);
 
   return (
@@ -67,4 +70,4 @@ const options = {
   },
 };
 
-export default React.memo(IntervalTimer);
+export default IntervalTimer;

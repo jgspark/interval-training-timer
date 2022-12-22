@@ -1,24 +1,64 @@
-import React, {useEffect} from 'react';
+import React, {useState} from 'react';
 import {Timer} from 'react-native-progress-timer';
 
 interface IntervalTimerProps {
-  timer: Number | any;
-  statusColor: String;
+  trainingTimer: number;
+  waitTimer: number;
+  statusColor: string;
+  round: number;
 }
 
-const IntervalTimer = (props: IntervalTimerProps) => {
-  const {timer, statusColor} = props;
+const TIMER_STATE = {
+  DEFAULT: {
+    state: 'DEFAULT',
+    play: true,
+    pause: false,
+    stop: true,
+    resume: false,
+  },
+  PLAY: {
+    state: 'PLAY',
+    play: false,
+    pause: true,
+    stop: true,
+    resume: false,
+  },
+  PAUSE: {
+    state: 'PAUSE',
+    play: false,
+    pause: true,
+    stop: true,
+    resume: false,
+  },
+  STOP: {
+    state: 'STOP',
+    play: true,
+    pause: false,
+    stop: true,
+    resume: false,
+  },
+  RESUME: {
+    state: 'RESUME',
+    play: false,
+    pause: false,
+    stop: true,
+    resume: true,
+  },
+} as const;
 
-  useEffect(() => {
-    console.debug('this hook', timer);
-    return function cleanup() {
-      console.debug('this cleanup');
-    };
-  }, [timer]);
+type TIMER_STATE = typeof TIMER_STATE[keyof typeof TIMER_STATE];
+
+const IntervalTimer = (props: IntervalTimerProps) => {
+  const {trainingTimer, waitTimer, statusColor} = props;
+
+  const [timerState, setTimerState] = useState<TIMER_STATE>(
+    TIMER_STATE.DEFAULT,
+  );
 
   return (
     <Timer
-      remainingTime={timer}
+      state={timerState}
+      remainingTime={trainingTimer}
       size={350}
       showsText={true}
       animated={true}

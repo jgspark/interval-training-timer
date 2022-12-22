@@ -5,9 +5,13 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import IntervalTimer from '../../component/IntervalTimer';
 
 const TimerView = () => {
-  const [timer, setTimer] = useState<String>('30');
+  const [timer, setTimer] = useState<string>('30');
 
-  const [statusColor, setStatusColor] = useState<String>('#faac02');
+  const [statusColor, setStatusColor] = useState<string>('#faac02');
+
+  const [round, setRound] = useState<string>('1');
+
+  const [waitTimer, setWaitTimer] = useState<string>('10');
 
   useEffect(() => {
     console.debug('created hook : timer viewer');
@@ -16,10 +20,17 @@ const TimerView = () => {
   return (
     <SafeAreaView>
       <View style={styles.body}>
-        <IntervalTimer timer={timer} statusColor={statusColor} />
+        <IntervalTimer
+          trainingTimer={Number(timer)}
+          waitTimer={Number(waitTimer)}
+          statusColor={statusColor}
+          round={Number(round)}
+        />
       </View>
       <TextInput value={timer} onChangeText={setTimer} />
       <TextInput value={statusColor} onChangeText={setStatusColor} />
+      <TextInput value={round} onChangeText={setRound} />
+      <TextInput value={waitTimer} onChangeText={setWaitTimer} />
     </SafeAreaView>
   );
 };

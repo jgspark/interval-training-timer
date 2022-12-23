@@ -51,13 +51,11 @@ type TIMER_STATE = typeof TIMER_STATE[keyof typeof TIMER_STATE];
 const IntervalTimer = (props: IntervalTimerProps) => {
   const {trainingTimer, waitTimer, statusColor} = props;
 
-  const [timerState, setTimerState] = useState<TIMER_STATE>(
-    TIMER_STATE.DEFAULT,
-  );
+  const [timerState, setTimerState] = useState<TIMER_STATE>(TIMER_STATE.PLAY);
 
   return (
     <Timer
-      state={timerState}
+      // state={timerState}
       remainingTime={trainingTimer}
       size={350}
       showsText={true}

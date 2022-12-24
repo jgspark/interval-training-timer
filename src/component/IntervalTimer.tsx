@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Timer} from 'react-native-progress-timer';
 import {Text, View} from 'react-native';
 
@@ -50,6 +50,7 @@ const TIMER_STATE = {
 type TIMER_STATE = typeof TIMER_STATE[keyof typeof TIMER_STATE];
 
 interface IntervalTimerState {
+  currentRound: number;
   round: number;
   trainingTimer: number;
   waitTimer: number;
@@ -57,29 +58,92 @@ interface IntervalTimerState {
   timerStatus: TIMER_STATE;
 }
 
+function useInterval(
+  callback: () => void,
+  callback2: () => void,
+  delay: number,
+  arg: any | null,
+) {
+  const ref = useRef<typeof callback>(callback);
+
+  const ref2 = useRef<typeof callback2>(callback2);
+
+  let interval: any = null;
+
+  useEffect(() => {
+    ref.current = callback;
+    ref2.current = callback2;
+  }, [callback]);
+
+  useEffect(() => {
+    const tick = () => {
+      ref.current();
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    interval = setInterval(tick, delay);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [delay, arg.round !== 0]);
+
+  useEffect(() => {
+    console.debug('arg is now !!', JSON.stringify(arg));
+
+    if (arg.round === arg.currentRound) {
+      console.debug('same round !! stop timer...');
+      ref2.current();
+      clearInterval(interval);
+    }
+  }, [arg.currentRound]);
+}
+
 const IntervalTimer = (props: IntervalTimerProps) => {
   const {trainingTimer, waitTimer, statusColor, round} = props;
 
   const [state, setState] = useState<IntervalTimerState>({
+    currentRound: 0,
     round: 0,
     waitTimer: 0,
     trainingTimer: 0,
     statusColor: '#fff',
-    timerStatus: TIMER_STATE.PLAY,
+    timerStatus: TIMER_STATE.DEFAULT,
   });
 
   useEffect(() => {
     console.log('change props state', JSON.stringify(props));
-    const _state: IntervalTimerState = {
-      ...state,
+
+    setState(v => ({
+      ...v,
       ...props,
-    };
-    setState(_state);
+    }));
   }, [trainingTimer, waitTimer, statusColor, round]);
+
+  useInterval(
+    () => {
+      setState(p => ({
+        ...p,
+        currentRound: p.currentRound + 1,
+      }));
+
+      return () => {
+        console.log('useInterval ==> clear?');
+      };
+    },
+    () => {
+      setState(v => ({
+        ...v,
+        currentRound: 0,
+      }));
+    },
+    3000,
+    state,
+  );
 
   return (
     <View>
-      <Text> Now Round is {state.round}</Text>
+      <Text> Now Round is {state.currentRound}</Text>
       <Timer
         state={state.timerStatus}
         remainingTime={state.trainingTimer}

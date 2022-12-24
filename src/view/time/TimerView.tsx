@@ -9,7 +9,7 @@ const TimerView = () => {
 
   const [statusColor, setStatusColor] = useState<string>('#faac02');
 
-  const [round, setRound] = useState<string>('1');
+  const [round, setRound] = useState<string>('10');
 
   const [waitTimer, setWaitTimer] = useState<string>('10');
 

@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Timer} from 'react-native-progress-timer';
+import {Text, View} from 'react-native';
 
 interface IntervalTimerProps {
   trainingTimer: number;
@@ -10,35 +11,35 @@ interface IntervalTimerProps {
 
 const TIMER_STATE = {
   DEFAULT: {
-    state: 'DEFAULT',
+    name: 'DEFAULT',
     play: true,
     pause: false,
     stop: true,
     resume: false,
   },
   PLAY: {
-    state: 'PLAY',
+    name: 'PLAY',
     play: false,
     pause: true,
     stop: true,
     resume: false,
   },
   PAUSE: {
-    state: 'PAUSE',
+    name: 'PAUSE',
     play: false,
     pause: true,
     stop: true,
     resume: false,
   },
   STOP: {
-    state: 'STOP',
+    name: 'STOP',
     play: true,
     pause: false,
     stop: true,
     resume: false,
   },
   RESUME: {
-    state: 'RESUME',
+    name: 'RESUME',
     play: false,
     pause: false,
     stop: true,
@@ -48,26 +49,52 @@ const TIMER_STATE = {
 
 type TIMER_STATE = typeof TIMER_STATE[keyof typeof TIMER_STATE];
 
-const IntervalTimer = (props: IntervalTimerProps) => {
-  const {trainingTimer, waitTimer, statusColor} = props;
+interface IntervalTimerState {
+  round: number;
+  trainingTimer: number;
+  waitTimer: number;
+  statusColor: string;
+  timerStatus: TIMER_STATE;
+}
 
-  const [timerState, setTimerState] = useState<TIMER_STATE>(TIMER_STATE.PLAY);
+const IntervalTimer = (props: IntervalTimerProps) => {
+  const {trainingTimer, waitTimer, statusColor, round} = props;
+
+  const [state, setState] = useState<IntervalTimerState>({
+    round: 0,
+    waitTimer: 0,
+    trainingTimer: 0,
+    statusColor: '#fff',
+    timerStatus: TIMER_STATE.PLAY,
+  });
+
+  useEffect(() => {
+    console.log('change props state', JSON.stringify(props));
+    const _state: IntervalTimerState = {
+      ...state,
+      ...props,
+    };
+    setState(_state);
+  }, [trainingTimer, waitTimer, statusColor, round]);
 
   return (
-    <Timer
-      // state={timerState}
-      remainingTime={trainingTimer}
-      size={350}
-      showsText={true}
-      animated={true}
-      direction={'counter-clockwise'}
-      borderColor={'#d9dcdd'}
-      borderWidth={3}
-      thickness={5}
-      color={statusColor}
-      style={options.style}
-      textStyle={options.textStyle}
-    />
+    <View>
+      <Text> Now Round is {state.round}</Text>
+      <Timer
+        state={state.timerStatus}
+        remainingTime={state.trainingTimer}
+        size={350}
+        showsText={true}
+        animated={true}
+        direction={'counter-clockwise'}
+        borderColor={'#d9dcdd'}
+        borderWidth={3}
+        thickness={5}
+        color={state.statusColor}
+        style={options.style}
+        textStyle={options.textStyle}
+      />
+    </View>
   );
 };
 
@@ -108,4 +135,4 @@ const options = {
   },
 };
 
-export default IntervalTimer;
+export default React.memo(IntervalTimer);

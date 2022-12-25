@@ -4,7 +4,6 @@ import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import IntervalTimer from '../../component/interval-timer';
 import {MOCK_DATA} from './mock-data';
-import {INTERVAL_STATE} from './timer-type';
 
 interface TimerViewState {
   id: number;

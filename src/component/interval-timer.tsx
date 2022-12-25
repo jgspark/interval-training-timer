@@ -15,7 +15,7 @@ const IntervalTimer = (props: IntervalTimerProps) => {
     round: 0,
     waitTimer: 0,
     trainingTimer: 0,
-    intervalState: INTERVAL_STATE.READY,
+    intervalState: INTERVAL_STATE.TRAINING,
   });
 
   useEffect(() => {
@@ -43,6 +43,30 @@ const IntervalTimer = (props: IntervalTimerProps) => {
         color={state.intervalState.color}
         style={options.style}
         textStyle={options.textStyle}
+        getTimerState={(val: any) => {
+          console.debug('get this value like play state ====> ');
+          console.debug('value data is here' + JSON.stringify(val));
+
+          // todo : current round up
+          if (
+            state.intervalState === INTERVAL_STATE.TRAINING &&
+            val.counter === 0
+          ) {
+            setState(v => ({
+              ...v,
+              currentRound: v.currentRound + 1,
+              intervalState: INTERVAL_STATE.WAIT,
+            }));
+          } else if (
+            state.intervalState === INTERVAL_STATE.WAIT &&
+            val.counter === 0
+          ) {
+            setState(v => ({
+              ...v,
+              intervalState: INTERVAL_STATE.TRAINING,
+            }));
+          }
+        }}
       />
     </View>
   );

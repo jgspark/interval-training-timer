@@ -2,21 +2,20 @@ import React, {useEffect, useState} from 'react';
 import {Timer} from 'react-native-progress-timer';
 import {Text, View} from 'react-native';
 import {
+  INTERVAL_STATE,
   IntervalTimerProps,
   IntervalTimerState,
-  TIMER_STATE,
 } from '../view/time/timer-type';
 
 const IntervalTimer = (props: IntervalTimerProps) => {
-  const {trainingTimer, waitTimer, statusColor, round} = props;
+  const {trainingTimer, waitTimer, round} = props;
 
   const [state, setState] = useState<IntervalTimerState>({
     currentRound: 0,
     round: 0,
     waitTimer: 0,
     trainingTimer: 0,
-    statusColor: '#fff',
-    timerStatus: TIMER_STATE.DEFAULT,
+    intervalState: INTERVAL_STATE.READY,
   });
 
   useEffect(() => {
@@ -26,13 +25,13 @@ const IntervalTimer = (props: IntervalTimerProps) => {
       ...v,
       ...props,
     }));
-  }, [trainingTimer, waitTimer, statusColor, round]);
+  }, [trainingTimer, waitTimer, round]);
 
   return (
     <View>
       <Text> Now Round is {state.currentRound}</Text>
       <Timer
-        state={state.timerStatus}
+        state={state.intervalState.timerState}
         remainingTime={state.trainingTimer}
         size={350}
         showsText={true}
@@ -41,7 +40,7 @@ const IntervalTimer = (props: IntervalTimerProps) => {
         borderColor={'#d9dcdd'}
         borderWidth={3}
         thickness={5}
-        color={state.statusColor}
+        color={state.intervalState.color}
         style={options.style}
         textStyle={options.textStyle}
       />

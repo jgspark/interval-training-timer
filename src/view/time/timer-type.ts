@@ -41,7 +41,6 @@ export type TIMER_STATE = typeof TIMER_STATE[keyof typeof TIMER_STATE];
 export interface IntervalTimerProps {
   trainingTimer: number;
   waitTimer: number;
-  statusColor: string;
   round: number;
 }
 
@@ -50,6 +49,22 @@ export interface IntervalTimerState {
   round: number;
   trainingTimer: number;
   waitTimer: number;
-  statusColor: string;
-  timerStatus: TIMER_STATE;
+  intervalState: INTERVAL_STATE;
 }
+
+export const INTERVAL_STATE = {
+  TRAINING: {
+    color: '#00ff00',
+    timerState: TIMER_STATE.PLAY,
+  },
+  READY: {
+    color: '#ff0000',
+    timerState: TIMER_STATE.DEFAULT,
+  },
+  WAIT: {
+    color: '#faac02',
+    timerState: TIMER_STATE.PLAY,
+  },
+} as const;
+
+export type INTERVAL_STATE = typeof INTERVAL_STATE[keyof typeof INTERVAL_STATE];

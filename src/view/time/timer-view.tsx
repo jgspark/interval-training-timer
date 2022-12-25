@@ -1,36 +1,46 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet, TextInput, View} from 'react-native';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import IntervalTimer from '../../component/interval-timer';
+import {MOCK_DATA} from './mock-data';
+import {INTERVAL_STATE} from './timer-type';
+
+interface TimerViewState {
+  id: number;
+  trainingTimer: number;
+  waitTimer: number;
+  round: number;
+}
 
 const TimerView = () => {
-  const [timer, setTimer] = useState<string>('30');
-
-  const [statusColor, setStatusColor] = useState<string>('#faac02');
-
-  const [round, setRound] = useState<string>('10');
-
-  const [waitTimer, setWaitTimer] = useState<string>('10');
+  const [state, setState] = useState<TimerViewState>({
+    id: 0,
+    trainingTimer: 0,
+    waitTimer: 0,
+    round: 0,
+  });
 
   useEffect(() => {
-    console.debug('created hook : timer viewer');
+    console.debug('created hook : timer viewer' + JSON.stringify(MOCK_DATA));
+
+    const _data = MOCK_DATA.find(m => m.id);
+
+    setState(v => ({
+      ...v,
+      ..._data,
+    }));
   }, []);
 
   return (
     <SafeAreaView>
       <View style={styles.body}>
         <IntervalTimer
-          trainingTimer={Number(timer)}
-          waitTimer={Number(waitTimer)}
-          statusColor={statusColor}
-          round={Number(round)}
+          trainingTimer={state.trainingTimer}
+          waitTimer={state.waitTimer}
+          round={state.round}
         />
       </View>
-      <TextInput value={timer} onChangeText={setTimer} />
-      <TextInput value={statusColor} onChangeText={setStatusColor} />
-      <TextInput value={round} onChangeText={setRound} />
-      <TextInput value={waitTimer} onChangeText={setWaitTimer} />
     </SafeAreaView>
   );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import TimerView from './src/view/time/TimerView';
+import TimerView from './src/view/time/timer-view';
 import {Button} from 'react-native';
 
 const Stack = createNativeStackNavigator();

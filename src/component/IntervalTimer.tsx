@@ -1,103 +1,11 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Timer} from 'react-native-progress-timer';
 import {Text, View} from 'react-native';
-
-interface IntervalTimerProps {
-  trainingTimer: number;
-  waitTimer: number;
-  statusColor: string;
-  round: number;
-}
-
-const TIMER_STATE = {
-  DEFAULT: {
-    name: 'DEFAULT',
-    play: true,
-    pause: false,
-    stop: true,
-    resume: false,
-  },
-  PLAY: {
-    name: 'PLAY',
-    play: false,
-    pause: true,
-    stop: true,
-    resume: false,
-  },
-  PAUSE: {
-    name: 'PAUSE',
-    play: false,
-    pause: true,
-    stop: true,
-    resume: false,
-  },
-  STOP: {
-    name: 'STOP',
-    play: true,
-    pause: false,
-    stop: true,
-    resume: false,
-  },
-  RESUME: {
-    name: 'RESUME',
-    play: false,
-    pause: false,
-    stop: true,
-    resume: true,
-  },
-} as const;
-
-type TIMER_STATE = typeof TIMER_STATE[keyof typeof TIMER_STATE];
-
-interface IntervalTimerState {
-  currentRound: number;
-  round: number;
-  trainingTimer: number;
-  waitTimer: number;
-  statusColor: string;
-  timerStatus: TIMER_STATE;
-}
-
-function useInterval(
-  callback: () => void,
-  callback2: () => void,
-  delay: number,
-  arg: any | null,
-) {
-  const ref = useRef<typeof callback>(callback);
-
-  const ref2 = useRef<typeof callback2>(callback2);
-
-  let interval: any = null;
-
-  useEffect(() => {
-    ref.current = callback;
-    ref2.current = callback2;
-  }, [callback]);
-
-  useEffect(() => {
-    const tick = () => {
-      ref.current();
-    };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    interval = setInterval(tick, delay);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [delay, arg.round !== 0]);
-
-  useEffect(() => {
-    console.debug('arg is now !!', JSON.stringify(arg));
-
-    if (arg.round === arg.currentRound) {
-      console.debug('same round !! stop timer...');
-      ref2.current();
-      clearInterval(interval);
-    }
-  }, [arg.currentRound]);
-}
+import {
+  IntervalTimerProps,
+  IntervalTimerState,
+  TIMER_STATE,
+} from '../view/time/timer-type';
 
 const IntervalTimer = (props: IntervalTimerProps) => {
   const {trainingTimer, waitTimer, statusColor, round} = props;
@@ -119,27 +27,6 @@ const IntervalTimer = (props: IntervalTimerProps) => {
       ...props,
     }));
   }, [trainingTimer, waitTimer, statusColor, round]);
-
-  useInterval(
-    () => {
-      setState(p => ({
-        ...p,
-        currentRound: p.currentRound + 1,
-      }));
-
-      return () => {
-        console.log('useInterval ==> clear?');
-      };
-    },
-    () => {
-      setState(v => ({
-        ...v,
-        currentRound: 0,
-      }));
-    },
-    3000,
-    state,
-  );
 
   return (
     <View>
